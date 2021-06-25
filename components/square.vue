@@ -1,5 +1,5 @@
 <template>
-  <div ref="box" class="square"></div>
+  <div ref="box" class="square" @click="changeColour"></div>
 </template>
 
 <script>
@@ -18,7 +18,13 @@ export default {
     getRandomInt(min, max) {
       min = Math.ceil(min);
       max = Math.floor(max);
-      return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+      let rand = null;
+
+      while (rand === null || rand >= max / 2 || rand <= min / 2) {
+        rand = Math.floor(Math.random() * (max - min) + min);
+      }
+
+      return rand; //The maximum is exclusive and the minimum is inclusive
     },
     runAnimation() {
       const { box } = this.$refs;
@@ -28,11 +34,16 @@ export default {
         y: this.randomY,
         yoyo: true,
         repeat: -1,
-        backgroundColor: this.generator(),
+        backgroundColor: this.colourGenerator(),
       });
     },
-    generator() {
+    colourGenerator() {
       return "#" + ((Math.random() * 0xffffff) << 0).toString(16);
+    },
+    changeColour() {
+      const { box } = this.$refs;
+      console.log(box);
+      box.style.backgroundColor = this.colourGenerator();
     },
   },
   computed: {
@@ -57,9 +68,9 @@ export default {
 .square {
   height: 40px;
   width: 40px;
-  background-color: purple;
   position: absolute;
   top: 50%;
   left: 50%;
+  border-radius: 50%;
 }
 </style>
