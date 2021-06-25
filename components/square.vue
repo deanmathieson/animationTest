@@ -6,9 +6,13 @@
 import gsap from "gsap";
 export default {
   props: {
-    duration: {
+    count: {
       type: Number,
-      default: 1,
+      default: 0,
+    },
+    delay: {
+      type: Number,
+      default: 0,
     },
   },
   mounted() {
@@ -20,20 +24,22 @@ export default {
       max = Math.floor(max);
       let rand = null;
 
-      while (rand === null || rand >= max / 2 || rand <= min / 2) {
-        rand = Math.floor(Math.random() * (max - min) + min);
-      }
+      // while (rand === null || rand >= max / 2 || rand <= min / 2) {
+      rand = Math.floor(Math.random() * (max - min) + min);
+      // }
 
       return rand; //The maximum is exclusive and the minimum is inclusive
     },
     runAnimation() {
+      console.log(this.delay * this.count);
       const { box } = this.$refs;
       gsap.to(box, {
-        duration: this.duration,
+        duration: 1,
         x: this.randomX,
         y: this.randomY,
         yoyo: true,
         repeat: -1,
+        delay: this.delay * this.count,
         backgroundColor: this.colourGenerator(),
       });
     },
@@ -42,7 +48,7 @@ export default {
     },
     changeColour() {
       const { box } = this.$refs;
-      console.log(box);
+      console.log(this);
       box.style.backgroundColor = this.colourGenerator();
     },
   },
@@ -56,11 +62,11 @@ export default {
       return this.getRandomInt(-maxX, maxX);
     },
   },
-  watch: {
-    duration(newValue, oldValue) {
-      this.runAnimation();
-    },
-  },
+  // watch: {
+  //   duration(newValue, oldValue) {
+  //     this.runAnimation();
+  //   },
+  // },
 };
 </script>
 

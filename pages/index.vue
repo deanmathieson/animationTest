@@ -1,5 +1,5 @@
 <template>
-  <div class="cont">
+  <div class="cont" ref="cont">
     <p class="text-7xl pb-5">oh aye theres hings here</p>
     <nuxt-link to="baws">
       <button

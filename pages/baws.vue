@@ -4,12 +4,12 @@
       <legend>count</legend>
       <input type="range" v-model="count" min="1" max="500" />
       <label for="count">{{ count }}</label>
-      <!-- <legend>duration</legend>
-      <input type="range" v-model="duration" min=".1" max="5" step=".1" />
-      <label for="duration">{{ duration }}</label> -->
+      <legend>delay</legend>
+      <input type="range" v-model="delay" min=".1" max="1" step=".1" />
+      <label for="delay">{{ delay }}</label>
     </div>
     <div v-for="square in parseInt(count)" :key="square">
-      <square :duration="parseInt(duration)" />
+      <square :delay="parseFloat(delay).toFixed(1)" :count="square" />
     </div>
   </div>
 </template>
@@ -24,7 +24,7 @@ export default {
   data() {
     return {
       count: 50,
-      duration: 1,
+      delay: 0.2,
     };
   },
 };
