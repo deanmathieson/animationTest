@@ -1,5 +1,5 @@
 <template>
-  <div ref="box" class="square" @click="changeColour"></div>
+  <div ref="box" class="square"></div>
 </template>
 
 <script>
@@ -11,7 +11,7 @@ export default {
       default: 0,
     },
     delay: {
-      type: Number,
+      type: String,
       default: 0,
     },
   },
@@ -31,7 +31,6 @@ export default {
       return rand; //The maximum is exclusive and the minimum is inclusive
     },
     runAnimation() {
-      console.log(this.delay * this.count);
       const { box } = this.$refs;
       gsap.to(box, {
         duration: 1,
@@ -45,11 +44,6 @@ export default {
     },
     colourGenerator() {
       return "#" + ((Math.random() * 0xffffff) << 0).toString(16);
-    },
-    changeColour() {
-      const { box } = this.$refs;
-      console.log(this);
-      box.style.backgroundColor = this.colourGenerator();
     },
   },
   computed: {

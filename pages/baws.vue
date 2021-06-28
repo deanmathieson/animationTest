@@ -1,5 +1,5 @@
 <template>
-  <div class="cont">
+  <div ref="cont" class="cont">
     <div class="slider">
       <legend>count</legend>
       <input type="range" v-model="count" min="1" max="500" />
@@ -16,7 +16,7 @@
 
 <script>
 import square from "@/components/square.vue";
-
+import gsap from "gsap";
 export default {
   components: {
     square,
@@ -25,7 +25,30 @@ export default {
     return {
       count: 50,
       delay: 0.2,
+      rand: this.colourGenerator(),
+      rand2: this.colourGenerator(),
     };
+  },
+  computed: {
+    gradient() {
+      return "linear-gradient(" + this.rand + ", " + this.rand2 + ")";
+    },
+  },
+  methods: {
+    colourGenerator() {
+      return "#" + ((Math.random() * 0xffffff) << 0).toString(16);
+    },
+  },
+  mounted() {
+    const { cont } = this.$refs;
+
+    gsap.to(cont, {
+      yoyo: true,
+      repeat: -1,
+      duration: 10,
+      backgroundColor: this.colourGenerator(),
+      backgroundImage: this.gradient,
+    });
   },
 };
 </script>
