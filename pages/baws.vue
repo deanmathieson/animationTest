@@ -54,11 +54,6 @@ export default {
 </script>
 
 <style>
-.cont {
-  width: 100vw;
-  min-height: 100vh;
-  display: flex;
-}
 .slider {
   position: absolute;
   z-index: 999;

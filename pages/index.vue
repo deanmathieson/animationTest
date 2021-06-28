@@ -16,6 +16,21 @@
         Baws R Here
       </button></nuxt-link
     >
+    <nuxt-link to="paint">
+      <button
+        class="
+          bg-blue-500
+          hover:bg-blue-700
+          text-white
+          font-bold
+          py-2
+          px-4
+          rounded
+        "
+      >
+        painty R Here
+      </button></nuxt-link
+    >
   </div>
 </template>
 
@@ -31,12 +46,4 @@ export default {
 </script>
 
 <style>
-.cont {
-  width: 100vw;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
 </style>
