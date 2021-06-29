@@ -30,7 +30,7 @@
       </div>
       <div>
         <label for="radius">radius:</label>
-        <input type="number" min="1" max="100" v-model="radius" step="10" />
+        <input type="number" min="1" max="100" v-model="radius" step="1" />
       </div>
       <div>
         <label for="duration">duration:</label>
@@ -64,11 +64,11 @@ export default {
       mouseY: "50vw",
       color: "#000000",
       mousedown: false,
-      size: 20,
+      size: 200,
       radius: 50,
       counter: 0,
       duration: 5,
-      bgColor: "#ffffff",
+      bgColor: "#000000",
       borderWidth: 1,
       borderColor: "#e66465",
       x: 100,
@@ -117,7 +117,7 @@ export default {
       div.style.top = this.mouseY - this.size / 2 + "px";
       div.style.width = this.size + "px";
       div.style.height = this.size + "px";
-      div.style.borderRadius = this.radius + "px";
+      div.style.borderRadius = this.radius + "%";
       div.style.border = this.borderWidth + "px solid " + this.borderColor;
       div.style.backgroundColor = this.color;
       document.body.appendChild(div);
