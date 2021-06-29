@@ -22,7 +22,7 @@
       </div>
       <div>
         <label for="size">Size!</label>
-        <input type="number" v-model="size" min="1" max="100" step="10" />
+        <input type="number" v-model="size" min="1" max="300" step="10" />
       </div>
       <div>
         <label for="borderWidth">Border Width!</label>
@@ -43,10 +43,6 @@
       <div>
         <label for="y">y:</label>
         <input type="number" min="-1000" max="1000" v-model="y" step="100" />
-      </div>
-      <div>
-        <label for="dotDelay">Dot Delay:</label>
-        <input type="number" min="20" max="1000" v-model="dotDelay" step="10" />
       </div>
       <div>
         <label for="easing">Easing: </label>
@@ -117,8 +113,8 @@ export default {
       let className = ".item" + this.counter;
       div.classList.add("square");
       div.classList.add("item" + this.counter);
-      div.style.left = this.mouseX + "px";
-      div.style.top = this.mouseY + "px";
+      div.style.left = this.mouseX - this.size / 2 + "px";
+      div.style.top = this.mouseY - this.size / 2 + "px";
       div.style.width = this.size + "px";
       div.style.height = this.size + "px";
       div.style.borderRadius = this.radius + "px";
@@ -131,6 +127,7 @@ export default {
         opacity: 0,
         duration: this.duration,
         ease: this.easing,
+        borderColor: this.colourGenerator(),
       });
       setTimeout(() => {
         document
@@ -139,6 +136,9 @@ export default {
       }, this.duration * 1000);
       this.counter++;
       // }
+    },
+    colourGenerator() {
+      return "#" + ((Math.random() * 0xffffff) << 0).toString(16);
     },
   },
   watch: {
