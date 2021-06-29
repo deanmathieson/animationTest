@@ -12,10 +12,12 @@
         <label for="color">{{ color }}</label>
       </div>
       <div>
-        <label for="height">Height!</label>
-        <input type="number" v-model="height" min="1" max="100" />
-        <label for="width">Width!</label>
-        <input type="number" v-model="width" min="1" max="100" />
+        <label for="size">Size!</label>
+        <input type="number" v-model="size" min="1" max="100" />
+      </div>
+      <div>
+        <label for="radius">radius:</label>
+        <input type="number" min="1" max="100" v-model="radius" />
       </div>
     </div>
   </div>
@@ -30,8 +32,8 @@ export default {
       mouseY: "50vw",
       color: "#e66465",
       mousedown: false,
-      width: 20,
-      height: 20,
+      size: 20,
+      radius: 50,
     };
   },
   methods: {
@@ -55,8 +57,9 @@ export default {
         div.classList.add("square");
         div.style.left = this.mouseX + "px";
         div.style.top = this.mouseY + "px";
-        div.style.width = this.width + "px";
-        div.style.height = this.height + "px";
+        div.style.width = this.size + "px";
+        div.style.height = this.size + "px";
+        div.style.borderRadius = this.radius + "px";
         div.style.backgroundColor = this.color;
         document.body.appendChild(div);
       }
@@ -80,5 +83,11 @@ export default {
 }
 .options {
   z-index: 100;
+  left: 0;
+  top: 0;
+  position: absolute;
+}
+html {
+  overflow: hidden;
 }
 </style>
