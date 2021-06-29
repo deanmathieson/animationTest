@@ -128,6 +128,7 @@ export default {
         duration: this.duration,
         ease: this.easing,
         borderColor: this.colourGenerator(),
+        backgroundColor: this.colourGenerator(),
       });
       setTimeout(() => {
         document
