@@ -45,8 +45,8 @@
         <input type="number" min="-1000" max="1000" v-model="y" step="100" />
       </div>
       <div>
-        <label for="dotDelay">Dot Delay(May cause performance issues):</label>
-        <input type="number" min="10" max="1000" v-model="dotDelay" step="10" />
+        <label for="dotDelay">Dot Delay:</label>
+        <input type="number" min="20" max="1000" v-model="dotDelay" step="10" />
       </div>
       <div>
         <label for="easing">Easing: </label>
@@ -79,7 +79,7 @@ export default {
       y: 100,
       timeStamp: 0,
       dotDelay: 20,
-      easing: "none",
+      easing: "elastic.out(1, .3)",
       eases: [
         "none",
         "power1.out",
@@ -167,6 +167,7 @@ export default {
   left: 0;
   top: 0;
   position: absolute;
+  background-color: #ddd;
 }
 html {
   overflow: hidden;
