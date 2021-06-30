@@ -21,6 +21,18 @@
         <label for="bgColor">bg colour: {{ bgColor }}</label>
       </div>
       <div>
+        <label for="alpha">alpha</label>
+        <input
+          type="range"
+          id="alpha"
+          v-model="alpha"
+          min="0"
+          max="1"
+          step="0.1"
+          value="1"
+        />
+      </div>
+      <div>
         <label for="size">Size!</label>
         <input type="number" v-model="size" min="1" max="300" step="10" />
       </div>
@@ -45,10 +57,29 @@
         <input type="number" min="-1000" max="1000" v-model="y" step="100" />
       </div>
       <div>
+        <label for="rotation">Rotation:</label>
+        <input
+          type="number"
+          min="-360"
+          max="360"
+          v-model="rotation"
+          step="10"
+        />
+      </div>
+      <div>
         <label for="easing">Easing: </label>
         <select v-model="easing">
           <option disabled value="">Please select one</option>
           <option v-for="ease in eases" :key="ease">{{ ease }}</option>
+        </select>
+      </div>
+      <div>
+        <label for="shape">Shapes: </label>
+        <select v-model="selectedShape">
+          <option disabled value="">Please select one</option>
+          <option v-for="shape in shapes" :key="shape.name">
+            {{ shape.name }}
+          </option>
         </select>
       </div>
     </div>
@@ -67,7 +98,7 @@ export default {
       size: 200,
       radius: 50,
       counter: 0,
-      duration: 5,
+      duration: 30,
       bgColor: "#000000",
       borderWidth: 1,
       borderColor: "#e66465",
@@ -84,6 +115,8 @@ export default {
         "power4.out",
         "back.out(1.7)",
         "elastic.out(1, .3)",
+        "elastic.in(1, .3)",
+        "elastic.inout(1, .3)",
         "bounce.out",
         "slow(.7, .7, false)",
         "steps(10)",
@@ -91,6 +124,43 @@ export default {
         "expo.out",
         "sine.out",
       ],
+      shapes: [
+        {
+          name: "triangle",
+          clip: "polygon(50% 0%, 0% 100%, 100% 100%)",
+        },
+        {
+          name: "trapezoid",
+          clip: "polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)",
+        },
+        {
+          name: "pentagon",
+          clip: "polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%)",
+        },
+        {
+          name: "hexagon",
+          clip: "polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)",
+        },
+        {
+          name: "arrow",
+          clip: "polygon(40% 0%, 40% 20%, 100% 20%, 100% 80%, 40% 80%, 40% 100%, 0% 50%)",
+        },
+        {
+          name: "star",
+          clip: "polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)",
+        },
+        {
+          name: "X",
+          clip: "polygon(20% 0%, 0% 20%, 30% 50%, 0% 80%, 20% 100%, 50% 70%, 80% 100%, 100% 80%, 70% 50%, 100% 20%, 80% 0%, 50% 30%)",
+        },
+        {
+          name: "cross",
+          path: "polygon(10% 25%, 35% 25%, 35% 0%, 65% 0%, 65% 25%, 90% 25%, 90% 50%, 65% 50%, 65% 100%, 35% 100%, 35% 50%, 10% 50%)",
+        },
+      ],
+      rotation: 0,
+      alpha: 1,
+      selectedShape: "",
     };
   },
   methods: {
@@ -120,6 +190,15 @@ export default {
       div.style.borderRadius = this.radius + "%";
       div.style.border = this.borderWidth + "px solid " + this.borderColor;
       div.style.backgroundColor = this.color;
+      div.style.opacity = this.alpha;
+      if (this.selectedShape !== "") {
+        this.shapes.forEach((shape) => {
+          if (shape.name === this.selectedShape) {
+            console.log("tis a SHAPE");
+            div.style.clipPath = shape.clip;
+          }
+        });
+      }
       document.body.appendChild(div);
       gsap.to(className, {
         x: this.x,
@@ -129,6 +208,7 @@ export default {
         ease: this.easing,
         borderColor: this.colourGenerator(),
         backgroundColor: this.colourGenerator(),
+        rotation: this.rotation,
       });
       setTimeout(() => {
         document
@@ -162,6 +242,7 @@ export default {
 }
 .square {
   position: absolute;
+  background-color: transparent;
 }
 .options {
   z-index: 100;
