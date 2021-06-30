@@ -66,7 +66,9 @@
         <label for="easing">Easing: </label>
         <select v-model="easing">
           <option disabled value="">Please select one</option>
-          <option v-for="ease in eases" :key="ease">{{ ease }}</option>
+          <option v-for="ease in eases" :key="ease.name">
+            {{ ease.name }}
+          </option>
         </select>
       </div>
       <div>
@@ -101,23 +103,68 @@ export default {
       y: 100,
       timeStamp: 0,
       dotDelay: 20,
-      easing: "elastic.out(1, .3)",
+      easing: "elastic in",
       eases: [
-        "none",
-        "power1.out",
-        "power2.out",
-        "power3.out",
-        "power4.out",
-        "back.out(1.7)",
-        "elastic.out(1, .3)",
-        "elastic.in(1, .3)",
-        "elastic.inout(1, .3)",
-        "bounce.out",
-        "slow(.7, .7, false)",
-        "steps(10)",
-        "circ.out",
-        "expo.out",
-        "sine.out",
+        {
+          name: "Ease",
+          value: "none",
+        },
+        {
+          name: "power1",
+          value: "power1.out",
+        },
+        {
+          name: "power2",
+          value: "power2.out",
+        },
+        {
+          name: "power3",
+          value: "power3.out",
+        },
+        {
+          name: "power4",
+          value: "power4.out",
+        },
+        {
+          name: "back out",
+          value: "back.out(1.7)",
+        },
+        {
+          name: "elastic out",
+          value: "elastic.out(1, .3)",
+        },
+        {
+          name: "elastic in",
+          value: "elastic.in(1, .3)",
+        },
+        {
+          name: "elastic in out",
+          value: "elastic.inout(1, .3)",
+        },
+        {
+          name: "bounce out",
+          value: "bounce.out",
+        },
+        {
+          name: "slow",
+          value: "slow(.7,}{ .7,}{ false)",
+        },
+        {
+          name: "10steps",
+          value: "steps(10)",
+        },
+        {
+          name: "circle out",
+          value: "circle.out",
+        },
+        {
+          name: "expo",
+          value: "expo.out",
+        },
+        {
+          name: "sine",
+          value: "sine.out",
+        },
       ],
       shapes: [
         {
@@ -198,13 +245,20 @@ export default {
           div.style.clipPath = shape.clip;
         }
       });
+      let easing = "";
+      this.eases.forEach((ease) => {
+        if (ease.name === this.easing) {
+          easing = ease.value;
+        }
+      });
       document.body.appendChild(div);
+      console.log(easing);
       gsap.to(className, {
         x: this.x,
         y: this.y,
         opacity: 0,
         duration: this.duration,
-        ease: this.easing,
+        ease: easing,
         borderColor: this.colourGenerator(),
         backgroundColor: this.colourGenerator(),
         rotation: this.rotation,
