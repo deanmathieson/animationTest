@@ -121,6 +121,10 @@ export default {
       ],
       shapes: [
         {
+          name: "square",
+          clip: "",
+        },
+        {
           name: "triangle",
           clip: "polygon(50% 0%, 0% 100%, 100% 100%)",
         },
@@ -157,9 +161,9 @@ export default {
           clip: "circle(50% at 50% 50%)",
         },
       ],
-      rotation: 0,
+      rotation: 360,
       alpha: 1,
-      selectedShape: "",
+      selectedShape: "hexagon",
     };
   },
   methods: {
@@ -189,13 +193,11 @@ export default {
       div.style.border = this.borderWidth + "px solid " + this.borderColor;
       div.style.backgroundColor = this.color;
       div.style.opacity = this.alpha;
-      if (this.selectedShape !== "") {
-        this.shapes.forEach((shape) => {
-          if (shape.name === this.selectedShape) {
-            div.style.clipPath = shape.clip;
-          }
-        });
-      }
+      this.shapes.forEach((shape) => {
+        if (shape.name === this.selectedShape) {
+          div.style.clipPath = shape.clip;
+        }
+      });
       document.body.appendChild(div);
       gsap.to(className, {
         x: this.x,
