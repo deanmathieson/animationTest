@@ -38,11 +38,7 @@
       </div>
       <div>
         <label for="borderWidth">Border Width!</label>
-        <input type="number" v-model="borderWidth" min="1" max="100" step="1" />
-      </div>
-      <div>
-        <label for="radius">radius:</label>
-        <input type="number" min="1" max="100" v-model="radius" step="1" />
+        <input type="number" v-model="borderWidth" min="0" max="100" step="1" />
       </div>
       <div>
         <label for="duration">duration:</label>
@@ -96,7 +92,6 @@ export default {
       color: "#000000",
       mousedown: false,
       size: 200,
-      radius: 50,
       counter: 0,
       duration: 30,
       bgColor: "#000000",
@@ -155,7 +150,11 @@ export default {
         },
         {
           name: "cross",
-          path: "polygon(10% 25%, 35% 25%, 35% 0%, 65% 0%, 65% 25%, 90% 25%, 90% 50%, 65% 50%, 65% 100%, 35% 100%, 35% 50%, 10% 50%)",
+          clip: "polygon(10% 25%, 35% 25%, 35% 0%, 65% 0%, 65% 25%, 90% 25%, 90% 50%, 65% 50%, 65% 100%, 35% 100%, 35% 50%, 10% 50%)",
+        },
+        {
+          name: "circle",
+          clip: "circle(50% at 50% 50%)",
         },
       ],
       rotation: 0,
@@ -187,14 +186,12 @@ export default {
       div.style.top = this.mouseY - this.size / 2 + "px";
       div.style.width = this.size + "px";
       div.style.height = this.size + "px";
-      div.style.borderRadius = this.radius + "%";
       div.style.border = this.borderWidth + "px solid " + this.borderColor;
       div.style.backgroundColor = this.color;
       div.style.opacity = this.alpha;
       if (this.selectedShape !== "") {
         this.shapes.forEach((shape) => {
           if (shape.name === this.selectedShape) {
-            console.log("tis a SHAPE");
             div.style.clipPath = shape.clip;
           }
         });
@@ -242,7 +239,6 @@ export default {
 }
 .square {
   position: absolute;
-  background-color: transparent;
 }
 .options {
   z-index: 100;
