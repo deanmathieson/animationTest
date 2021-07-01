@@ -1,12 +1,6 @@
 <template>
   <div ref="cont" class="cont" :style="{ backgroundColor: bgColor }">
-    <div
-      class="layer"
-      @mouseup="mUp"
-      @mousedown="mDown"
-      @mousemove="triggerPaint"
-      @click="triggerDraw"
-    />
+    <div class="layer" @mousemove="triggerPaint" @touchmove="triggerPaint" />
     <div class="options">
       <div>
         <input type="color" v-model="borderColor" />
@@ -33,8 +27,9 @@
         />
       </div>
       <div>
-        <label for="size">Size!</label>
+        <label for="size">Size:</label>
         <input type="number" v-model="size" min="1" max="300" step="10" />
+        <input type="checkbox" v-model="randomSize" /><label>Random?</label>
       </div>
       <div>
         <label for="borderWidth">Border Width!</label>
@@ -89,13 +84,12 @@ import gsap from "gsap";
 export default {
   data() {
     return {
-      mouseX: "50vh",
-      mouseY: "50vw",
+      mouseX: "",
+      mouseY: "",
       color: "#000000",
-      mousedown: false,
       size: 200,
       counter: 0,
-      duration: 30,
+      duration: 10,
       bgColor: "#000000",
       borderWidth: 1,
       borderColor: "#e66465",
@@ -211,6 +205,7 @@ export default {
       rotation: 360,
       alpha: 1,
       selectedShape: "hexagon",
+      randomSize: false,
     };
   },
   methods: {
@@ -221,22 +216,19 @@ export default {
         this.mouseY = e.pageY;
       }
     },
-    mDown() {
-      this.mousedown = true;
-    },
-    mUp() {
-      this.mousedown = false;
-    },
     triggerDraw() {
-      // if (this.mousedown) {
       let div = document.createElement("div");
       let className = ".item" + this.counter;
+      let size = this.size;
+      if (this.randomSize) {
+        size = Math.random() * (300 - 1) + 1;
+      }
       div.classList.add("square");
       div.classList.add("item" + this.counter);
-      div.style.left = this.mouseX - this.size / 2 + "px";
-      div.style.top = this.mouseY - this.size / 2 + "px";
-      div.style.width = this.size + "px";
-      div.style.height = this.size + "px";
+      div.style.left = this.mouseX - size / 2 + "px";
+      div.style.top = this.mouseY - size / 2 + "px";
+      div.style.width = size + "px";
+      div.style.height = size + "px";
       div.style.border = this.borderWidth + "px solid " + this.borderColor;
       div.style.backgroundColor = this.color;
       div.style.opacity = this.alpha;
@@ -252,7 +244,6 @@ export default {
         }
       });
       document.body.appendChild(div);
-      console.log(easing);
       gsap.to(className, {
         x: this.x,
         y: this.y,
@@ -269,7 +260,6 @@ export default {
           .parentNode.removeChild(document.querySelectorAll(className)[0]);
       }, this.duration * 1000);
       this.counter++;
-      // }
     },
     colourGenerator() {
       return "#" + ((Math.random() * 0xffffff) << 0).toString(16);
